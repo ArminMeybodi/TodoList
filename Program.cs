@@ -35,34 +35,11 @@ while (!shallExit)
     }
 }
 
-void AddTodo()
-{
-    bool isValidDescription = false;
-    while (!isValidDescription)
-    {
-        Console.WriteLine("Enter TODO description:");
-        var description = Console.ReadLine();
-        if (description == "")
-        {
-            Console.WriteLine("description cannot be empry");
-        }
-        else if (todos.Contains(description))
-        {
-            Console.WriteLine("description must be unique");
-        }
-        else
-        {
-            isValidDescription = true;
-            todos.Add(description);
-        }
-    }
-}
-
 void SeeAllTodos()
 {
     if (todos.Count == 0)
     {
-        Console.WriteLine("No TODOs have been added yet.");
+        ShowNoTodoMessage();
     }
     else
     {
@@ -73,11 +50,41 @@ void SeeAllTodos()
     }
 }
 
+void AddTodo()
+{
+    bool isValidDescription = false;
+    while (!isValidDescription)
+    {
+        Console.WriteLine("Enter TODO description:");
+        var description = Console.ReadLine();
+        if (IsDescriptionValid(description))
+        {
+            isValidDescription = true;
+            todos.Add(description);
+        }
+    }
+}
+
+bool IsDescriptionValid(string description)
+{
+    if (description == "")
+    {
+        Console.WriteLine("description cannot be empry");
+        return false;
+    }
+    else if (todos.Contains(description))
+    {
+        Console.WriteLine("description must be unique");
+        return false;
+    }
+    return true;
+}
+
 void RemoveTodo()
 {
     if (todos.Count == 0)
     {
-        Console.WriteLine("No TODOs have been added yet.");
+        ShowNoTodoMessage();
         return;
     }
 
@@ -105,4 +112,9 @@ void RemoveTodo()
             Console.WriteLine("The given index is not valid.");
         }
     }
+}
+
+static void ShowNoTodoMessage()
+{
+    Console.WriteLine("No TODOs have been added yet.");
 }
